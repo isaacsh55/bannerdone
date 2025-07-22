@@ -112,23 +112,13 @@ export const _socials = [
   {
     value: 'facebook',
     label: 'Facebook',
-    path: 'https://www.facebook.com/caitlyn.kerluke',
+    path: 'https://www.facebook.com/chillipadiconfinement/',
   },
   {
     value: 'instagram',
     label: 'Instagram',
-    path: 'https://www.instagram.com/caitlyn.kerluke',
-  },
-  {
-    value: 'linkedin',
-    label: 'Linkedin',
-    path: 'https://www.linkedin.com/caitlyn.kerluke',
-  },
-  {
-    value: 'twitter',
-    label: 'Twitter',
-    path: 'https://www.twitter.com/caitlyn.kerluke',
-  },
+    path: 'https://www.instagram.com/chillipadiconfinement/',
+  }
 ];
 
 // ----------------------------------------------------------------------
@@ -175,45 +165,41 @@ export const _pricingPlans = [
 
 export const _testimonials = [
   {
-    name: _mock.fullName(1),
-    postedDate: _mock.time(1),
+    name: 'Rachel Lee @rachellrq',
     ratingNumber: _mock.number.rating(1),
-    avatarUrl: _mock.image.avatar(1),
-    content: `Excellent Work! Thanks a lot!`,
+    content: `Been having my confinement meals taken care by @chillipadiconfinement.
+Really love their services. Delivery is always on time. PLUS their food is always store in insulated thermal lunchbox to ensure food is always served hot!
+Both lunch and dinner always comes with 2 dishes, 1 rice, a soup & a flask of red dates tea. Their food even includes fish, scallops & even soups that helps postpartum mummies to recover!`,
   },
   {
-    name: _mock.fullName(2),
-    postedDate: _mock.time(2),
+    name: 'Hazel Low @16.75cnt',
     ratingNumber: _mock.number.rating(2),
     avatarUrl: _mock.image.avatar(2),
-    content: `It's a very good dashboard and we are really liking the product . We've done some things, like migrate to TS and implementing a react useContext api, to fit our job methodology but the product is one of the best in terms of design and application architecture. The team did a really good job.`,
+    content: `Thank you @chillipadiconfinement for the delicious confinement food the past 28 days! It feels great waking up to lunch and dinner without having to worry about what to eat and most importantly, it smells real good and taste just like home cook, not your mix veg-rice stall!`,
   },
   {
-    name: _mock.fullName(3),
-    postedDate: _mock.time(3),
+    name: 'Crystal and Family',
     ratingNumber: _mock.number.rating(3),
-    avatarUrl: _mock.image.avatar(3),
-    content: `Customer support is realy fast and helpful the desgin of this theme is looks amazing also the code is very clean and readble realy good job !`,
+    content: `Customer support After much consideration and reccomendation from friends, I decided to engage Chilli Padi Confinement after my confinement Nanny left. To my amazement, their food tasted really good if not better than what the nanny prepared! Especially their "zhu jiao chu"! realy fast and helpful the desgin of this theme is looks amazing also the code is very clean and readble realy good job !`,
   },
   {
-    name: _mock.fullName(4),
-    postedDate: _mock.time(4),
+    name: 'Umehara Rei (The Amazing Race Asia 5 Finalist',
     ratingNumber: _mock.number.rating(4),
-    avatarUrl: _mock.image.avatar(4),
-    content: `Amazing, really good code quality and gives you a lot of examples for implementations.`,
+    content: `Therefore, I'm so thankful for @chillipadiconfinment making these 21 days a breeze as I get pampered with hot nutritious meals delivered in vacuum sealed containers everyday for lunch and dinner.`,
   },
   {
-    name: _mock.fullName(5),
-    postedDate: _mock.time(5),
+    name: 'Xue Han Yu Yue',
     ratingNumber: _mock.number.rating(5),
-    avatarUrl: _mock.image.avatar(5),
-    content: `Got a few questions after purchasing the product. The owner responded very fast and very helpfull. Overall the code is excellent and works very good. 5/5 stars!`,
+    content: `I have always thought that confinement food would not be tasty until I try out your confinement food. It is really good and have the homely taste, reminds me of my mum's cooking.`,
   },
   {
-    name: _mock.fullName(6),
-    postedDate: _mock.time(6),
+    name: 'Ruby Liang - FamilyStaycationSG',
     ratingNumber: _mock.number.rating(6),
-    avatarUrl: _mock.image.avatar(6),
-    content: `CEO of Codealy.io here. We’ve built a developer assessment platform that makes sense - tasks are based on git repositories and run in virtual machines. We automate the pain points - storing candidates code, running it and sharing test results with the whole team, remotely. Bought this template as we need to provide an awesome dashboard for our early customers. I am super happy with purchase. The code is just as good as the design. Thanks!`,
+    content: `Every single time we opened up the container, it felt as if there’s a caring mum in the kitchen who SPEND hours preparing delicious herbal soup, savoury protein (meat) and a wide variety of veggies. Making sure we were full and satisfied! Never failed to give us more than enough portion to fill our hungry tummies.`,
+  },
+  {
+    name: 'Adeline Miller @adeline_miller',
+    ratingNumber: _mock.number.rating(6),
+    content: `Really grateful to have @chillipadiconfinement deliver their nutritious confinement meals to me during the last few weeks. It's my first time trying out confinement meals catering and I feel really pampered because of their generous portion.`,
   },
 ];
