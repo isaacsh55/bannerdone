@@ -1,3 +1,4 @@
+"use client";
 import { m } from 'framer-motion';
 import { forwardRef } from 'react';
 
@@ -20,12 +21,12 @@ export const MotionViewport = forwardRef((props, ref) => {
   const baseProps = disabled
     ? {}
     : {
-        component: m.div,
-        initial: 'initial',
-        whileInView: 'animate',
-        variants: varContainer(),
-        viewport: { once: true, amount: 0.3, ...viewport },
-      };
+      component: m.div,
+      initial: 'initial',
+      whileInView: 'animate',
+      variants: varContainer(),
+      viewport: { once: true, amount: 0.3, ...viewport },
+    };
 
   return (
     <Box ref={ref} {...baseProps} {...other}>

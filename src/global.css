@@ -22,6 +22,15 @@
 /* scrollbar */
 @import './components/scrollbar/styles.css';
 
+/* map */
+/* @import './components/map/styles.css'; */
+
+/* lightbox */
+@import './components/lightbox/styles.css';
+
+/* chart */
+@import './components/chart/styles.css';
+
 /** **************************************
 * Baseline
 *************************************** */
