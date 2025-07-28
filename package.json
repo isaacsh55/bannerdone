@@ -8,6 +8,7 @@
     "dev": "next dev -p 3032",
     "start": "next start -p 3032",
     "build": "next build",
+    "postinstall": "prisma generate",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:print": "npx eslint --print-config eslint.config.mjs > eslint-show-config.json",
