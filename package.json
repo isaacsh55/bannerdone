@@ -1,5 +1,5 @@
 {
-  "name": "@minimal-kit/next-js",
+  "name": "@minimal-kit/next",
   "author": "Minimals",
   "version": "6.2.0",
   "description": "Next & JavaScript",
@@ -21,6 +21,9 @@
   },
   "engines": {
     "node": "20.x"
+  },
+  "prisma": {
+    "seed": "node prisma/seedBanner.js"
   },
   "packageManager": "yarn@1.22.22",
   "dependencies": {
@@ -51,6 +54,7 @@
     "@mui/x-data-grid": "^7.23.1",
     "@mui/x-date-pickers": "^7.23.1",
     "@mui/x-tree-view": "^7.23.0",
+    "@prisma/client": "^6.12.0",
     "@react-pdf/renderer": "^4.1.5",
     "@stripe/stripe-js": "^7.4.0",
     "@supabase/supabase-js": "^2.47.2",
@@ -69,6 +73,7 @@
     "autosuggest-highlight": "^3.3.4",
     "aws-amplify": "^6.10.2",
     "axios": "^1.7.9",
+    "bcrypt": "^6.0.0",
     "dayjs": "^1.11.13",
     "embla-carousel": "^8.5.1",
     "embla-carousel-auto-height": "^8.5.1",
@@ -78,6 +83,7 @@
     "embla-carousel-react": "^8.5.1",
     "es-toolkit": "^1.29.0",
     "firebase": "^11.0.2",
+    "formidable": "^3.5.4",
     "framer-motion": "^11.13.1",
     "i18next": "^24.0.5",
     "i18next-browser-languagedetector": "^8.0.0",
@@ -123,6 +129,10 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^15.13.0",
-    "prettier": "^3.4.2"
-  }
+    "prettier": "^3.4.2",
+    "prisma": "^6.12.0"
+  },
+  "main": "index.js",
+  "keywords": [],
+  "license": "ISC"
 }
