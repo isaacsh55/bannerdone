@@ -59,7 +59,10 @@ export function HomeView() {
     const fetchBanners = () => {
       fetch('/api/banner')
         .then((res) => res.json())
-        .then((data) => setBanners(data))
+        .then((data) => {
+          const activeBanners = data.filter((b) => b.isActive);
+          setBanners(activeBanners);
+        })
         .catch((err) => console.error('Error fetching banners:', err));
    };
     
