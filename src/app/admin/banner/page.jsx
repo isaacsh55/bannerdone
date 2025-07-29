@@ -156,7 +156,8 @@ export default function AdminBannerPage() {
         ))}
       </Stack>
 
-      {/* Column 3: Upload */}
+
+      {/* Column 3: Upload New Banner */}
       <Stack spacing={3} sx={{ width: '40%' }}>
         <Typography variant="h4">Upload New Banner</Typography>
         <TextField
