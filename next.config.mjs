@@ -1,4 +1,4 @@
-const isStaticExport = 'false';
+const isStaticExport = 'false'; // ensure this is actually 'false'!
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -26,10 +26,8 @@ const nextConfig = {
     return config;
   },
 
-  // ✅ Add this block to force standalone unless static export
-  ...(isStaticExport === 'true'
-    ? { output: 'export' }
-    : { output: 'standalone' }),
+  // ✅ Always use 'standalone' for Prisma + API-based apps
+  output: 'standalone',
 };
 
 export default nextConfig;
