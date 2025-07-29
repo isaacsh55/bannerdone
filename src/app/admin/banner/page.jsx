@@ -22,7 +22,7 @@ export default function AdminBannerPage() {
   // Load banners from API
   const fetchBanners = async () => {
     try {
-      const res = await fetch('/api/banner');
+      const res = await fetch('/api/banner-list');
       const data = await res.json();
       setBanners(data);
     } catch (err) {
