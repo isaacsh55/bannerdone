@@ -4,7 +4,7 @@ const isStaticExport = 'false'; // ensure this is actually 'false'!
 const nextConfig = {
   trailingSlash: true,
   env: {
-    BUILD_STATIC_EXPORT: isStaticExport,
+    BUILD_STATIC_EXPORT: 'false',
   },
   modularizeImports: {
     '@mui/icons-material': {
