@@ -1,5 +1,6 @@
 const isStaticExport = 'false';
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: true,
   env: {
@@ -24,9 +25,11 @@ const nextConfig = {
 
     return config;
   },
-  ...(isStaticExport === 'true' && {
-    output: 'export',
-  }),
+
+  // ✅ Add this block to force standalone unless static export
+  ...(isStaticExport === 'true'
+    ? { output: 'export' }
+    : { output: 'standalone' }),
 };
 
 export default nextConfig;
