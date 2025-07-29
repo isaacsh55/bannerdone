@@ -22,7 +22,7 @@ export default function AdminBannerPage() {
   // Load banners from API
   const fetchBanners = async () => {
     try {
-      const res = await fetch('/api/banner-list');
+      const res = await fetch('/api/banner-data');
       const data = await res.json();
       setBanners(data);
     } catch (err) {
@@ -96,18 +96,6 @@ export default function AdminBannerPage() {
             <img src={b.imageUrl} alt={b.title} style={{ width: '100%', borderRadius: 8 }} />
             <Typography>{b.title}</Typography>
             <Typography variant="caption">Sort Order: {b.sortOrder}</Typography>
-            {/* <FormControlLabel
-              control={
-                <Checkbox
-                  checked={b.isActive}
-                  onChange={async (e) => {
-                    const updated = { ...b, isActive: e.target.checked };
-                    await handleBannerUpdate(updated);
-                  }}
-                />
-              }
-              label="Active"
-            /> */}
           </Stack>
         ))}
       </Stack>
