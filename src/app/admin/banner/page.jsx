@@ -125,8 +125,8 @@ export default function AdminBannerPage() {
                 const current = banners.find((x) => x.id === b.id);
                 await handleBannerUpdate(current);
               }}
-              size="small"
-              sx={{ width: 100 }}
+              size="medium"
+              sx={{ width: 200 }}
             />
 
             {/* Toggle isActive */}

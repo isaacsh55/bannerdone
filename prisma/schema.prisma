@@ -13,32 +13,274 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ================================================= ENUMS =================================================
+
 enum AdminRole {
   SUPERADMIN
   STAFF
 }
 
-model Admin {
-  id        	String   @id @default(cuid())
-  name      	String
-  email     	String   @unique
-  passwordHash  String   // store the hashed password here
-  role          AdminRole
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+enum ProductType {
+  PACKAGE
+  ADDON
+  GIFTBOX
+}
 
-  banners   Banner[] //RR
+enum OptionType {
+  PACKAGE_DURATION // 7/14/21/28 days
+  ADDON_SERVING // 1/3/5 servings
+  ADDON_BUNDLE // Comforting Set
+  PARTNER_BUNDLE // Any partner-specific bundle
+}
+
+enum MealPortion {
+  SINGLE
+  DUAL
+  TRIAL
+}
+
+enum MealSession {
+  LUNCH
+  DINNER
+}
+
+enum InputType {
+  EDD
+  CONFIRMED_DATE
+}
+
+enum DiscountType {
+  PERCENT
+  FIXED
+}
+
+enum PaymentMethod {
+  STRIPE
+  PAYNOW
+  MANUAL
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+}
+
+enum OrderStatus {
+  UNFULFILLED // just created (paid), waiting for sales/admin to ack
+  ACKNOWLEDGED // sales or admin have reviewed 
+  IN_PROGRESS // start date have been set, meal deliveries have begun
+  CANCELLED // order was called off
+}
+
+// ================================================= Sprint 1 =================================================
+
+model Admin {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String // store the hashed password here
+  role         AdminRole
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  banners Banner[] //RR
 }
 
 model Banner {
-  id         String   @id @default(cuid())
-  imageUrl   String
-  title      String?
-  linkUrl    String?
-  isActive   Boolean  @default(true)
-  sortOrder  Int?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  createdBy  Admin?   @relation(fields: [createdById], references: [id])
+  id          String   @id @default(cuid())
+  imageUrl    String
+  publicId    String  // Cloudinary public id
+  title       String?
+  linkUrl     String?
+  isActive    Boolean  @default(true)
+  sortOrder   Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   Admin?   @relation(fields: [createdById], references: [id])
   createdById String?
+}
+
+// ================================================= Sprint 2=================================================
+// Product
+
+model Product {
+  product_id  Int         @id @default(autoincrement())
+  name        String
+  description String?
+  type        ProductType
+  price       Decimal
+  visible     Boolean     @default(true)
+  created_by  String?
+  created_at  DateTime    @default(now())
+  updated_by  String?
+  updated_at  DateTime    @updatedAt
+
+  // Which package → add-on links exist
+  components    ProductComponent[] @relation("ParentProduct")
+  partOfBundles ProductComponent[] @relation("ComponentProduct")
+
+  // Options for this product
+  options ProductOption[]
+
+  // RR
+  orderItems      OrderItem[]
+  ordersAsPackage Order[]     @relation("PackageProduct")
+}
+
+model ProductComponent {
+  id           Int     @id @default(autoincrement())
+  parent_id    Int
+  component_id Int
+  parent       Product @relation("ParentProduct", fields: [parent_id], references: [product_id])
+  component    Product @relation("ComponentProduct", fields: [component_id], references: [product_id])
+}
+
+// As different pacakges have different order option
+model ProductOption {
+  id                    Int        @id @default(autoincrement())
+  product               Product    @relation(fields: [productId], references: [product_id])
+  productId             Int
+  type                  OptionType
+  label                 String // e.g. "28 Days", "3 Servings", "Comforting Set"
+  value                 Int // For serving or days - 28, 21, 14, 7, 5, 3, 1
+  price                 Decimal
+  ordersAsPackageOption Order[]    @relation("OrderPackageOption")
+
+  // RR
+  orderItems OrderItem[]
+}
+
+// ================================================== Order ==================================================
+
+model Order {
+  id              Int           @id @default(autoincrement())
+  productId       Int
+  portion         MealPortion // Single / Double / Trial
+  session         MealSession // Lunch / Dinner
+  input_type      InputType // Enum: CONFIRMED_DATE or EDD
+  input_date      DateTime // Date that customer select (EDD/confirmed start date)
+  packageOptionId Int
+  created_at      DateTime      @default(now())
+  updated_at      DateTime      @updatedAt
+  status          OrderStatus   @default(UNFULFILLED)
+  payment         OrderPayment?
+  customerId      Int? // optional until payment completes
+  subtotal        Decimal?
+  discount        Decimal?
+  total           Decimal?
+
+  product       Product       @relation("PackageProduct", fields: [productId], references: [product_id])
+  customer      Customer?     @relation(fields: [customerId], references: [customer_id])
+  packageOption ProductOption @relation("OrderPackageOption", fields: [packageOptionId], references: [id])
+
+  items    OrderItem[]
+  requests OrderRequest[] // Preset special request
+  notes    OrderNote? // Customer remarks
+
+  appliedPromotions AppliedOrderPromotion[]
+}
+
+model OrderItem {
+  order_item_id           Int     @id @default(autoincrement()) // PK (auto increment)
+  orderId                 Int
+  product_id              Int // FK - tells us which product was ordered
+  optionId                Int?
+  quantity                Int // Quantity of the item
+  price                   Decimal // Price of the item
+  special_request_options Json? // Optional structured exclusion list
+  special_request_notes   String? // Additional note from customer
+
+  order   Order          @relation(fields: [orderId], references: [id])
+  product Product        @relation(fields: [product_id], references: [product_id])
+  option  ProductOption? @relation(fields: [optionId], references: [id])
+}
+
+// Preset checkboxes
+model OrderRequest {
+  id      Int     @id @default(autoincrement())
+  orderId Int
+  label   String // e.g. "No Alcohol", "No Pork Liver"
+  value   Boolean // checked or not
+
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+// Customer remark notes
+model OrderNote {
+  id      Int    @id @default(autoincrement())
+  orderId Int    @unique
+  text    String // your free‐text notes
+
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+// ================================================== Promotion ==================================================
+
+model Promotion {
+  promotion_id   Int          @id @default(autoincrement())
+  promotion_code String       @unique
+  discount_type  DiscountType
+  discount_value Decimal // e.g. 5.00 means “5%” if PERCENT, or “$5.00” if FIXED
+  extra_rules    Json? // any JSON flags or conditions you might need later
+  starts_at      DateTime
+  ends_at        DateTime
+  max_uses       Int? // null = unlimited
+  created_by     String?
+  created_at     DateTime     @default(now())
+  updated_at     DateTime     @updatedAt
+
+  appliedToOrders AppliedOrderPromotion[]
+}
+
+model AppliedOrderPromotion {
+  id              Int      @id @default(autoincrement())
+  promotion_id    Int
+  order_id        Int
+  discount_amount Decimal // the $-amount you actually subtracted
+  applied_by      String
+  applied_at      DateTime @default(now())
+
+  promotion Promotion @relation(fields: [promotion_id], references: [promotion_id])
+  order     Order     @relation(fields: [order_id], references: [id])
+
+  @@unique([order_id]) // Allow one order-level discount per order
+}
+
+// ================================================== Payment ==================================================
+
+model OrderPayment {
+  payment_id Int           @id @default(autoincrement())
+  order_id   Int           @unique
+  method     PaymentMethod
+  status     PaymentStatus @default(PENDING)
+  reference  String // Stripe session ID or PayNow reference
+  amount     Decimal // amount actually charged
+  paid_at    DateTime? // when gateway confirmed
+  note       String? // admin notes, if any
+  created_by String? // your admin user, if needed
+  created_at DateTime      @default(now())
+  updated_at DateTime      @updatedAt
+
+  order Order @relation(fields: [order_id], references: [id])
+}
+
+// ================================================== Customer ==================================================
+
+model Customer {
+  customer_id      Int      @id @default(autoincrement())
+  name             String
+  email            String
+  phone            String
+  address          String
+  marketing_opt_in Boolean
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  orders Order[]
+
+  // Enforce uniqueness for identity verification
+  @@unique([phone])
+  @@unique([email])
 }
